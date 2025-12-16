@@ -1,1 +1,242 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>Nexus Wallet</title>
+  <meta name="theme-color" content="#0b0d10" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- LOCK -->
+  <div id="lock" class="lock">
+    <div class="lockCard">
+      <div class="brand">
+        <div class="brandLogo">N</div>
+        <div>
+          <div class="brandTitle">Nexus Wallet</div>
+          <div class="brandSub">Acceso con PIN</div>
+        </div>
+      </div>
+
+      <div class="row">
+        <input id="pinInput" class="input" inputmode="numeric" maxlength="8" placeholder="PIN (4–8 dígitos)" />
+      </div>
+      <div class="row">
+        <button id="btnUnlock" class="btn primary w100">Entrar</button>
+      </div>
+      <div id="lockMsg" class="msg"></div>
+      <div class="tiny muted">PIN inicial: <b>1234</b> (cámbialo en Configuración)</div>
+    </div>
+  </div>
+
+  <!-- TOPBAR -->
+  <header class="topbar">
+    <div class="topLeft">
+      <div class="topLogo">N</div>
+      <div>
+        <div class="topTitle">Nexus Wallet</div>
+        <div id="topSub" class="topSub">Clientes • Offline</div>
+      </div>
+    </div>
+
+    <div class="topRight">
+      <button id="btnQuickAdd" class="btn small">+ Añadir</button>
+    </div>
+  </header>
+
+  <!-- MAIN -->
+  <main class="main">
+
+    <!-- CLIENTES -->
+    <section id="tabClientes" class="tab active">
+      <div class="panel">
+        <div class="row gap">
+          <input id="qClients" class="input" placeholder="Buscar cliente: nombre / teléfono / dirección..." />
+          <select id="filterClients" class="select">
+            <option value="all">Todos</option>
+            <option value="vip">VIP ⭐</option>
+            <option value="recurrente">Recurrentes 🔁</option>
+          </select>
+        </div>
+        <div id="clientsList" class="list"></div>
+      </div>
+    </section>
+
+    <!-- VISITAS -->
+    <section id="tabVisitas" class="tab">
+      <div class="panel">
+        <div class="row between">
+          <div class="h2">Visitas</div>
+          <button id="btnNewVisit" class="btn small primary">+ Visita</button>
+        </div>
+        <div class="row">
+          <input id="qVisits" class="input" placeholder="Buscar por cliente o servicio..." />
+        </div>
+        <div id="visitsList" class="list"></div>
+      </div>
+    </section>
+
+    <!-- SERVICIOS -->
+    <section id="tabServicios" class="tab">
+      <div class="panel">
+        <div class="row between">
+          <div class="h2">Servicios</div>
+          <button id="btnNewService" class="btn small primary">+ Servicio</button>
+        </div>
+        <div class="row">
+          <input id="qServices" class="input" placeholder="Buscar servicio..." />
+        </div>
+        <div id="servicesList" class="list"></div>
+      </div>
+    </section>
+
+    <!-- VIP / RECURRENTES -->
+    <section id="tabVip" class="tab">
+      <div class="panel">
+        <div class="h2">VIP & Recurrentes</div>
+        <div class="row gap">
+          <div class="chip">VIP automático: <b>≥5 servicios</b> o <b>≥$1000</b></div>
+          <div class="chip">⭐ manual: 1–5</div>
+        </div>
+        <div class="row">
+          <select id="vipMode" class="select">
+            <option value="vip">VIP ⭐</option>
+            <option value="recurrente">Recurrentes 🔁</option>
+            <option value="top">Top por $</option>
+          </select>
+        </div>
+        <div id="vipList" class="list"></div>
+      </div>
+    </section>
+
+    <!-- CONTRATOS -->
+    <section id="tabContratos" class="tab">
+      <div class="panel">
+        <div class="row between">
+          <div class="h2">Contratos</div>
+          <button id="btnNewContract" class="btn small primary">+ Contrato</button>
+        </div>
+        <div class="row">
+          <input id="qContracts" class="input" placeholder="Buscar por cliente o tipo..." />
+        </div>
+        <div id="contractsList" class="list"></div>
+      </div>
+    </section>
+
+    <!-- AGENDA -->
+    <section id="tabAgenda" class="tab">
+      <div class="panel">
+        <div class="row between">
+          <div class="h2">Agenda mensual</div>
+          <button id="btnToday" class="btn small">Hoy</button>
+        </div>
+
+        <div class="calendarHead">
+          <button id="calPrev" class="btn small">◀</button>
+          <div id="calTitle" class="calTitle"></div>
+          <button id="calNext" class="btn small">▶</button>
+        </div>
+
+        <div id="calendar" class="calendar"></div>
+
+        <div class="card">
+          <div class="h3">Notas del día</div>
+          <div id="agendaDate" class="tiny muted"></div>
+          <textarea id="agendaNote" class="textarea" rows="3" placeholder="Asunto importante..."></textarea>
+          <div class="row right">
+            <button id="btnSaveAgenda" class="btn primary">Guardar</button>
+          </div>
+          <div id="agendaMsg" class="msg"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TELEFONOS -->
+    <section id="tabTelefonos" class="tab">
+      <div class="panel">
+        <div class="h2">Teléfonos</div>
+        <div class="row">
+          <input id="qPhones" class="input" placeholder="Buscar..." />
+        </div>
+        <div id="phonesList" class="list"></div>
+      </div>
+    </section>
+
+    <!-- CONFIG -->
+    <section id="tabConfig" class="tab">
+      <div class="panel">
+        <div class="h2">Configuración</div>
+
+        <div class="card">
+          <div class="h3">Cambiar PIN</div>
+          <div class="row">
+            <input id="pinOld" class="input" inputmode="numeric" placeholder="PIN actual" />
+          </div>
+          <div class="row">
+            <input id="pinNew" class="input" inputmode="numeric" placeholder="PIN nuevo (4–8)" />
+          </div>
+          <div class="row">
+            <button id="btnChangePin" class="btn primary">Guardar PIN</button>
+          </div>
+          <div id="cfgMsg" class="msg"></div>
+        </div>
+
+        <div class="card">
+          <div class="h3">Respaldo</div>
+          <div class="row gap">
+            <button id="btnExport" class="btn">Exportar JSON</button>
+            <label class="btn">
+              Importar JSON
+              <input id="importFile" type="file" accept="application/json" hidden />
+            </label>
+          </div>
+          <div class="tiny muted">No importa el PIN por seguridad.</div>
+        </div>
+
+        <div class="card danger">
+          <div class="h3">Borrar todo</div>
+          <div class="row gap">
+            <input id="wipePin" class="input" inputmode="numeric" placeholder="PIN" />
+            <button id="btnWipe" class="btn dangerBtn">Borrar</button>
+          </div>
+          <div id="wipeMsg" class="msg"></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- NAV -->
+  <nav class="nav">
+    <button class="navBtn active" data-tab="Clientes">Clientes</button>
+    <button class="navBtn" data-tab="Visitas">Visitas</button>
+    <button class="navBtn" data-tab="Servicios">Servicios</button>
+    <button class="navBtn" data-tab="Vip">VIP</button>
+    <button class="navBtn" data-tab="Agenda">Agenda</button>
+    <button class="navBtn" data-tab="Telefonos">Teléfonos</button>
+    <button class="navBtn" data-tab="Contratos">Contratos</button>
+    <button class="navBtn" data-tab="Config">Config</button>
+  </nav>
+
+  <!-- MODAL (reutilizable) -->
+  <div id="modal" class="modal hidden">
+    <div class="modalCard">
+      <div class="modalHead">
+        <div id="modalTitle" class="h2">Modal</div>
+        <button id="btnCloseModal" class="btn small">✕</button>
+      </div>
+      <div id="modalBody"></div>
+      <div id="modalMsg" class="msg"></div>
+    </div>
+  </div>
+
+  <script src="db.js"></script>
+  <script src="security.js"></script>
+  <script src="rules.js"></script>
+  <script src="ui.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
 
